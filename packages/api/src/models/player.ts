@@ -67,7 +67,17 @@ export class PlayerModel {
     force: boolean = false
   ): Promise<Array<Player> | null> {
     const vtos = await this.repository.bootstrap(
-      (_: null, index: number) => this.createPlayer(index),
+      /*
+	     src/models/player.ts:70:7 - error TS2345: Argument of type '(_: null, index: number) => Player' is not assignable to parameter of type '(_: null, index: number) => { token?: string | undefined; lastTradeIn?: number | undefined; lastTradeOut?: number | undefined; id?: string | undefined; key: string; ranch: RanchName; medals: StaticArray<...>; username: string; points: number; }'.
+  Call signature return types 'Player' and '{ token?: string | undefined; lastTradeIn?: number | undefined; lastTradeOut?: number | undefined; id?: string | undefined; key: string; ranch: RanchName; medals: StaticArray<TOptional<TString>>; username: string; points: number; }' are incompatible.
+    The types of 'id' are incompatible between these types.
+      Type 'ObjectId | undefined' is not assignable to type 'string | undefined'.
+        Type 'ObjectId' is not assignable to type 'string'.
+
+70       (_: null, index: number) => this.createPlayer(index),
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+      (_: null, index: number) => this.createPlayer(index).toDbVTO(),
       count,
       force
     )

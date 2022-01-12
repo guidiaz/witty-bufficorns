@@ -11,6 +11,7 @@ import { PlayerModel } from './models/player'
 import { BufficornModel } from './models/bufficorn'
 import { RanchModel } from './models/ranch'
 import { TradeModel } from './models/trade'
+import { MintModel } from './models/mint'
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -18,6 +19,7 @@ declare module 'fastify' {
     ranchModel: RanchModel
     bufficornModel: BufficornModel
     tradeModel: TradeModel
+    mintModel: MintModel
   }
 }
 
@@ -68,11 +70,13 @@ const app: FastifyPluginAsync<AppOptions> = async (
     const ranchModel = new RanchModel(fastify.mongo.db)
     const bufficornModel = new BufficornModel(fastify.mongo.db)
     const tradeModel = new TradeModel(fastify.mongo.db)
+    const mintModel = new MintModel(fastify.mongo.db)
 
     fastify.decorate('playerModel', playerModel)
     fastify.decorate('ranchModel', ranchModel)
     fastify.decorate('bufficornModel', bufficornModel)
     fastify.decorate('tradeModel', tradeModel)
+    fastify.decorate('mintModel', mintModel)
 
     next()
   }
